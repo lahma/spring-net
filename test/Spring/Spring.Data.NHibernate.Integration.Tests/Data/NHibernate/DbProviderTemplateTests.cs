@@ -20,7 +20,6 @@
 
 #region Imports
 
-using log4net.Config;
 using NUnit.Framework;
 using Spring.Context;
 using Spring.Context.Support;

@@ -36,8 +36,8 @@ namespace Spring.Context.Attributes
     {
         private readonly List<Func<Assembly, bool>> _assemblyExclusionPredicates = new List<Func<Assembly, bool>>();
 
-        private readonly IList<string> _springAssemblyExcludePrefixes = new List<string>()
-                                                                     {
+        private readonly IList<string> _springAssemblyExcludePrefixes = new List<string>
+        {
                                                                          "Spring.",
                                                                          "NHibernate.",
                                                                          "Common.Logging",
