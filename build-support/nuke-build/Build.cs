@@ -37,7 +37,7 @@ partial class Build : NukeBuild
 
     [Solution] readonly Solution Solution;
     [GitRepository] readonly GitRepository GitRepository;
-    
+
     [CI] readonly AppVeyor AppVeyor;
     [CI] readonly GitHubActions GitHubActions;
 
@@ -76,13 +76,14 @@ partial class Build : NukeBuild
     Target Pack => _ => _
         .After(Test)
         .DependsOn(Restore)
+        .Produces(ArtifactsDirectory / "*.*nupkg")
         .Executes(() =>
         {
             var packTargets = GetActiveProjects()
                 .Where(x => !x.Name.Contains(".Test"));
-            
+
             var suffix = "develop-" + DateTime.UtcNow.ToString("yyyyMMddHHmm");
-            
+
             foreach (var project in packTargets)
             {
                 DotNetPack(s => s
@@ -95,7 +96,7 @@ partial class Build : NukeBuild
                 );
             }
         });
-    
+
     IEnumerable<Project> GetActiveProjects()
     {
         var packTargets = Solution.GetProjects("*")
