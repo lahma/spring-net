@@ -121,7 +121,6 @@ object Pack : BuildType({
         root(DslContext.settingsRoot)
         cleanCheckout = true
     }
-    artifactRules = "artifacts/*.*nupkg => artifacts"
     steps {
         exec {
             path = "build.cmd"

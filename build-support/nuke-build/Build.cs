@@ -76,7 +76,7 @@ partial class Build : NukeBuild
     Target Pack => _ => _
         .After(Test)
         .DependsOn(Restore)
-        .Produces(ArtifactsDirectory / "*.*nupkg")
+        //.Produces(ArtifactsDirectory / "*.*nupkg")
         .Executes(() =>
         {
             var packTargets = GetActiveProjects()
