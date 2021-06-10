@@ -43,3 +43,7 @@ jobs:
         run: ./build.cmd Ci
         env:
           TODO: ${{ secrets.TODO }}
+      - uses: actions/upload-artifact@v1
+        with:
+          name: artifacts
+          path: artifacts

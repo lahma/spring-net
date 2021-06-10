@@ -24,6 +24,7 @@ public partial class Build
 
     Target Test => _ => _
         .DependsOn(Compile)
+        .Partition(() => TestPartition)
         .Executes(() =>
         {
             var projects = GetActiveProjects()

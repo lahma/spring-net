@@ -24,9 +24,14 @@ version = "2021.1"
 
 project {
     buildType(Pack)
+    buildType(Test_P1T5)
+    buildType(Test_P2T5)
+    buildType(Test_P3T5)
+    buildType(Test_P4T5)
+    buildType(Test_P5T5)
     buildType(Test)
 
-    buildTypesOrder = arrayListOf(Pack, Test)
+    buildTypesOrder = arrayListOf(Pack, Test_P1T5, Test_P2T5, Test_P3T5, Test_P4T5, Test_P5T5, Test)
 
     params {
         checkbox (
@@ -116,6 +121,7 @@ object Pack : BuildType({
         root(DslContext.settingsRoot)
         cleanCheckout = true
     }
+    artifactRules = "artifacts/*.*nupkg => artifacts"
     steps {
         exec {
             path = "build.cmd"
@@ -141,8 +147,8 @@ object Pack : BuildType({
         }
     }
 })
-object Test : BuildType({
-    name = "Test"
+object Test_P1T5 : BuildType({
+    name = "Test 1/5"
     vcs {
         root(DslContext.settingsRoot)
         cleanCheckout = true
@@ -150,15 +156,101 @@ object Test : BuildType({
     steps {
         exec {
             path = "build.cmd"
-            arguments = "Restore Compile Test --skip"
+            arguments = "Restore Compile Test --skip --test-partition 1"
             conditions { contains("teamcity.agent.jvm.os.name", "Windows") }
         }
         exec {
             path = "build.sh"
-            arguments = "Restore Compile Test --skip"
+            arguments = "Restore Compile Test --skip --test-partition 1"
             conditions { doesNotContain("teamcity.agent.jvm.os.name", "Windows") }
         }
     }
+})
+object Test_P2T5 : BuildType({
+    name = "Test 2/5"
+    vcs {
+        root(DslContext.settingsRoot)
+        cleanCheckout = true
+    }
+    steps {
+        exec {
+            path = "build.cmd"
+            arguments = "Restore Compile Test --skip --test-partition 2"
+            conditions { contains("teamcity.agent.jvm.os.name", "Windows") }
+        }
+        exec {
+            path = "build.sh"
+            arguments = "Restore Compile Test --skip --test-partition 2"
+            conditions { doesNotContain("teamcity.agent.jvm.os.name", "Windows") }
+        }
+    }
+})
+object Test_P3T5 : BuildType({
+    name = "Test 3/5"
+    vcs {
+        root(DslContext.settingsRoot)
+        cleanCheckout = true
+    }
+    steps {
+        exec {
+            path = "build.cmd"
+            arguments = "Restore Compile Test --skip --test-partition 3"
+            conditions { contains("teamcity.agent.jvm.os.name", "Windows") }
+        }
+        exec {
+            path = "build.sh"
+            arguments = "Restore Compile Test --skip --test-partition 3"
+            conditions { doesNotContain("teamcity.agent.jvm.os.name", "Windows") }
+        }
+    }
+})
+object Test_P4T5 : BuildType({
+    name = "Test 4/5"
+    vcs {
+        root(DslContext.settingsRoot)
+        cleanCheckout = true
+    }
+    steps {
+        exec {
+            path = "build.cmd"
+            arguments = "Restore Compile Test --skip --test-partition 4"
+            conditions { contains("teamcity.agent.jvm.os.name", "Windows") }
+        }
+        exec {
+            path = "build.sh"
+            arguments = "Restore Compile Test --skip --test-partition 4"
+            conditions { doesNotContain("teamcity.agent.jvm.os.name", "Windows") }
+        }
+    }
+})
+object Test_P5T5 : BuildType({
+    name = "Test 5/5"
+    vcs {
+        root(DslContext.settingsRoot)
+        cleanCheckout = true
+    }
+    steps {
+        exec {
+            path = "build.cmd"
+            arguments = "Restore Compile Test --skip --test-partition 5"
+            conditions { contains("teamcity.agent.jvm.os.name", "Windows") }
+        }
+        exec {
+            path = "build.sh"
+            arguments = "Restore Compile Test --skip --test-partition 5"
+            conditions { doesNotContain("teamcity.agent.jvm.os.name", "Windows") }
+        }
+    }
+})
+object Test : BuildType({
+    name = "Test"
+    type = Type.COMPOSITE
+    vcs {
+        root(DslContext.settingsRoot)
+        cleanCheckout = true
+        showDependenciesChanges = true
+    }
+    artifactRules = "**/*"
     params {
         text(
             "teamcity.ui.runButton.caption",
@@ -169,6 +261,43 @@ object Test : BuildType({
     triggers {
         vcs {
             triggerRules = "+:**"
+        }
+    }
+    dependencies {
+        snapshot(Test_P1T5) {
+            onDependencyFailure = FailureAction.ADD_PROBLEM
+            onDependencyCancel = FailureAction.CANCEL
+        }
+        snapshot(Test_P2T5) {
+            onDependencyFailure = FailureAction.ADD_PROBLEM
+            onDependencyCancel = FailureAction.CANCEL
+        }
+        snapshot(Test_P3T5) {
+            onDependencyFailure = FailureAction.ADD_PROBLEM
+            onDependencyCancel = FailureAction.CANCEL
+        }
+        snapshot(Test_P4T5) {
+            onDependencyFailure = FailureAction.ADD_PROBLEM
+            onDependencyCancel = FailureAction.CANCEL
+        }
+        snapshot(Test_P5T5) {
+            onDependencyFailure = FailureAction.ADD_PROBLEM
+            onDependencyCancel = FailureAction.CANCEL
+        }
+        artifacts(Test_P1T5) {
+            artifactRules = "**/*"
+        }
+        artifacts(Test_P2T5) {
+            artifactRules = "**/*"
+        }
+        artifacts(Test_P3T5) {
+            artifactRules = "**/*"
+        }
+        artifacts(Test_P4T5) {
+            artifactRules = "**/*"
+        }
+        artifacts(Test_P5T5) {
+            artifactRules = "**/*"
         }
     }
 })
