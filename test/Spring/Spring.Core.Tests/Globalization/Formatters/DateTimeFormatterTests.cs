@@ -28,7 +28,7 @@ namespace Spring.Globalization.Formatters
     /// Unit tests for DateTimeFormatter class.
     /// </summary>
     /// <author>Aleksandar Seovic</author>
-    [TestFixture]
+    [Ignore("culture-specific")]
     public class DateTimeFormatterTests
     {
         [Test]
